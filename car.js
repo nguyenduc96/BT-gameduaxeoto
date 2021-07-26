@@ -1,12 +1,11 @@
 class Car {
-    image;
     width;
     height;
     x;
     y;
 
-    constructor(image, x, y, width, height) {
-        this.image = image;
+
+    constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -14,7 +13,7 @@ class Car {
     };
 
     drawCar() {
-        ctx.fillRect(this.image, this.x, this.y, this.width, this.height);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fill();
     }
 
@@ -25,13 +24,4 @@ class Car {
     moveRight() {
         this.x += 20;
     }
-
-    moveUp() {
-        this.y -= 20;
-    }
-
-    moveDown() {
-        this.y += 20;
-    }
-
 }

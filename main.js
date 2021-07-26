@@ -1,63 +1,74 @@
 let c = document.getElementById('myCanvas');
 let ctx = c.getContext('2d');
-let car = new Car("oto.jpg",150, 450, 50, 50);
-let obstacle = new Obstacle( "speed.png",(Math.round(Math.random()* 320)), 10, 30, 30);
+let car = new Car(160, 450, 50, 50);
+let obstacles = [];
 let isGamerOver = false;
 
+function obStacle() {
+    for (let i = 0; i < 8; i++) {
+        let x = Math.round(Math.random() * 320);
+        let y = Math.round(Math.random() * 250);
+        let obstacle = new Obstacle(x, y, 30, 30, 0);
+        obstacles.push(obstacle);
+    }
+}
+
+obStacle();
+
+function drawMultiObstacle() {
+    for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].drawObstacle(ctx);
+    }
+}
 
 function moveCar() {
     switch (event.keyCode) {
         case 37: {
-            if (car.x > 0){
+            if (car.x >= 15) {
                 car.moveLeft();
                 break;
             }
         }
-        // case  38: {
-        //     if (car.y >0){
-        //         car.moveUp();
-        //         break;
-        //     }
-        // }
         case 39: {
-            if (car.x +50 < 350){
+            if (car.x + 55 <= 350) {
                 car.moveRight();
                 break;
             }
         }
-        // case 40: {
-        //     if (car.y + 50 < 500){
-        //         car.moveDown();
-        //         break;
-        //     }
-        // }
     }
     clearCanvas();
     car.drawCar(ctx);
-    obstacle.drawObstacle();
+    drawMultiObstacle();
 }
 
-
-
-function moveObstacle() {
+function moveObstacle(obstacle) {
     obstacle.moveDown();
-    clearCanvas()
+    clearCanvas();
+}
+
+function moveMulti() {
+    for (let obstacle of obstacles) {
+        moveObstacle(obstacle);
+    }
+    clearCanvas();
     car.drawCar();
-    obstacle.drawObstacle();
+    drawMultiObstacle();
 }
 
 function clearCanvas() {
     ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 }
 
-function isCollision() {
-    if (car.x <=10 || car.x + 50 >= 340){
-        console.log('thua')
+
+function gamePlay() {
+    if (!isGamerOver) {
+        clearCanvas();
+        car.drawCar();
+        drawMultiObstacle();
+    } else {
     }
 }
 
-isCollision()
-car.drawCar(ctx);
-obstacle.drawObstacle(ctx);
 window.addEventListener("keydown", moveCar);
-setInterval(moveObstacle, 1000)
+setInterval(moveMulti, 1000);
+gamePlay();

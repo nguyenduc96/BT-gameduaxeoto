@@ -1,30 +1,30 @@
 class Obstacle {
-    image;
     x;
     y;
     width;
     heigth;
 
-    constructor(image, x, y, width, height) {
-        this.image = image;
+    constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.heigth = height;
     }
 
-    
-
     drawObstacle() {
-        ctx.fillRect(this.image, this.x, this.y, this.width, this.heigth);
-        ctx.fill();
+            ctx.fillRect(this.x, this.y, this.width, this.heigth);
+            ctx.fill();
     }
-    moveDown(){
-        if (this.y<250){
-            this.y +=20;
+
+    moveDown() {
+        if (this.y < 200) {
+            this.y += 50;
+        } else if(this.y < 520) {
+            this.y += 80;
         }
         else {
-            this.y +=50;
+            this.y = 0;
+            this.x = Math.round(Math.random()*330);
         }
     }
 }
