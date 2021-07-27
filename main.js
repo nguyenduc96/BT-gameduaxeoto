@@ -42,8 +42,18 @@ function moveCar() {
 }
 
 function moveObstacle(obstacle) {
-    obstacle.moveDown();
-    clearCanvas();
+    if (checkCollision(obstacle) === true){
+        location.reload();
+        alert('game over')
+        clearInterval(intervalId)
+    }
+    else {
+        obstacle.moveDown();
+        clearCanvas();
+        car.drawCar(ctx);
+        drawMultiObstacle(ctx);
+    }
+
 }
 
 function moveMulti() {
@@ -59,16 +69,26 @@ function clearCanvas() {
     ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 }
 
+function checkCollision(obstacle) {
+    if ((car.x <= (obstacle.x + 30)) && ((obstacle.x + 30) <= (car.x + car.width)) &&
+        (car.y <= (obstacle.y + 30)) && ((obstacle.y + 30) <= (car.y + car.height)) ||
+        ((car.x <= obstacle.x - 30) && (obstacle.x<= car.x + car.width)) &&
+        ((car.y <= obstacle.y- 30) && (obstacle.y <= car.y + car.height)) ||
+        ((car.x <= obstacle.x - 30) && (obstacle.x <= car.x + car.width)) &&
+        ((car.y <= obstacle.y + 30) && (obstacle.y + 30 <=car.y + car.height))){
+        return  true;
+    }
+    return  false;
+}
 
 function gamePlay() {
     if (!isGamerOver) {
         clearCanvas();
         car.drawCar();
         drawMultiObstacle();
-    } else {
     }
 }
 
 window.addEventListener("keydown", moveCar);
-setInterval(moveMulti, 1000);
+setInterval(moveMulti, 200);
 gamePlay();
