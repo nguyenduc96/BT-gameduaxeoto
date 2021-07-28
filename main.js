@@ -2,6 +2,7 @@ let c = document.getElementById('myCanvas');
 let ctx = c.getContext('2d');
 let car = new Car(160, 450, 50, 50);
 let obstacles = [];
+let point = 0;
 let isGamerOver = false;
 
 function obStacle() {
@@ -52,6 +53,7 @@ function moveObstacle(obstacle) {
         clearCanvas();
         car.drawCar(ctx);
         drawMultiObstacle(ctx);
+        plusPoint(obstacle);
     }
 
 }
@@ -69,6 +71,12 @@ function clearCanvas() {
     ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 }
 
+function plusPoint(obstacle) {
+    if (obstacle.y>=519){
+        document.getElementById('point').innerHTML = point++;
+    }
+}
+
 function checkCollision(obstacle) {
     if ((car.x <= (obstacle.x + 30)) && ((obstacle.x + 30) <= (car.x + car.width)) &&
         (car.y <= (obstacle.y + 30)) && ((obstacle.y + 30) <= (car.y + car.height)) ||
@@ -78,7 +86,7 @@ function checkCollision(obstacle) {
         ((car.y <= obstacle.y + 30) && (obstacle.y + 30 <=car.y + car.height))){
         return  true;
     }
-    return  false;
+    return false;
 }
 
 function gamePlay() {
